@@ -32,6 +32,12 @@ public abstract class Entry extends Model {
 	private List<Vote> votes;
 
 	private Date timestamp;
+	
+	/** The Likers. */
+	@OneToMany(mappedBy = "entry", cascade = { CascadeType.MERGE,
+			CascadeType.REMOVE, CascadeType.REFRESH })
+	private List<LikeObj> likes;
+	
 
 	/**
 	 * Create an <code>Entry</code>.
@@ -46,6 +52,8 @@ public abstract class Entry extends Model {
 		this.content = content;
 		this.timestamp = new Date();
 		this.votes = new ArrayList<Vote>();
+		this.likes = new ArrayList<LikeObj>();
+
 	}
 
 	public String content() {
@@ -134,4 +142,15 @@ public abstract class Entry extends Model {
 		this.votes.add(vote);
 		return vote;
 	}
+	
+	public void like(User user){
+		LikeObj like = new LikeObj(user, this).save();
+		this.likes.add(like);
+	}
+	
+	public long getLikeCount(){
+		return LikeObj.find("byEntry", this).fetch().size();
+		
+	}
+	
 }

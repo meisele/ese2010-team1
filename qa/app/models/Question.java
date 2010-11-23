@@ -20,6 +20,8 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Question extends Entry {
+	
+	
 
 	/** The title. */
 	private String title;
@@ -31,7 +33,10 @@ public class Question extends Entry {
 	@OneToMany(mappedBy = "question", cascade = { CascadeType.MERGE,
 			CascadeType.REMOVE, CascadeType.REFRESH })
 	private List<Answer> answers;
+	
 
+	
+	
 	/**
 	 * Create a Question.
 	 * 
@@ -42,12 +47,14 @@ public class Question extends Entry {
 	 * @param content
 	 *            the question
 	 */
+	
+	
 	public Question(User owner, String title, String content) {
 		super(owner, content);
 		isBestAnswerSet = false;
 		this.title = title;
 		this.answers = new ArrayList<Answer>();
-
+	
 	}
 
 
@@ -127,5 +134,6 @@ public class Question extends Entry {
 	public void setBestAnswerFlag(boolean s) {
 		this.isBestAnswerSet = s;
 	}
+
 
 }

@@ -104,4 +104,23 @@ public class Secured extends Controller {
 			Application.index();
 		}
 	}
+	public static void likeAnswer(long id) {
+		if (Question.<Question> findById(id) != null) {
+			User user = User.find("byName", Security.connected()).first();
+			Question.<Question> findById(id).voteDown(user);
+			Application.question(id);
+		} else {
+			Application.index();
+		}
+	}
+	public static void likeQuestion(long id) {
+		Question q = Question.<Question> findById(id);
+		if (q != null) {
+			User user = User.find("byName", Security.connected()).first();
+			q.like(user);
+			Application.question(id);
+		} else {
+			Application.index();
+		}
+	}
 }
